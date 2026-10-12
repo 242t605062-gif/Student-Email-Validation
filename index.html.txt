@@ -1,0 +1,543 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ashoka College Email Validator - DFA</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background: #f1f4fa;
+            color: #17213b;
+        }
+
+        /* Navigation bar */
+        .navbar {
+            background: #101a3a;
+            color: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .navbar h2 {
+            font-size: 23px;
+            color: #ffffff;
+        }
+
+        .navbar span {
+            color: #f4b04b;
+        }
+
+        .navbar p {
+            font-size: 13px;
+        }
+
+        /* Hero section */
+        .hero {
+            background: linear-gradient(120deg, #101a3a, #293d70);
+            color: white;
+            padding: 55px 20px;
+            text-align: center;
+        }
+
+        .hero .tag {
+            color: #ffb75e;
+            letter-spacing: 3px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .hero h1 {
+            margin: 15px 0;
+            font-size: 36px;
+        }
+
+        .hero p {
+            color: #dce5ff;
+            line-height: 1.7;
+        }
+
+        /* Main content */
+        .container {
+            width: 90%;
+            max-width: 850px;
+            margin: 35px auto;
+        }
+
+        .card {
+            background: white;
+            padding: 30px;
+            margin-bottom: 25px;
+            border-radius: 12px;
+            box-shadow: 0 5px 22px rgba(20, 35, 75, 0.10);
+        }
+
+        .card h2 {
+            text-align: center;
+            margin-bottom: 10px;
+            font-size: 25px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #68738b;
+            margin-bottom: 25px;
+            font-size: 14px;
+        }
+
+        label {
+            display: block;
+            font-weight: bold;
+            margin-bottom: 9px;
+        }
+
+        input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbd3e1;
+            border-radius: 7px;
+            font-size: 16px;
+            outline: none;
+        }
+
+        input:focus {
+            border-color: #263d79;
+            box-shadow: 0 0 0 3px rgba(38, 61, 121, 0.1);
+        }
+
+        .hint {
+            color: #68738b;
+            font-size: 12px;
+            margin-top: 8px;
+        }
+
+        button {
+            width: 100%;
+            padding: 14px;
+            margin-top: 20px;
+            background: #761b2a;
+            border: none;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 7px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #58121e;
+        }
+
+        /* Result section */
+        .result {
+            margin-top: 25px;
+            padding: 20px;
+            border-left: 5px solid #a0a9bb;
+            border-radius: 6px;
+            background: #f7f8fc;
+            overflow-wrap: anywhere;
+        }
+
+        .result h3 {
+            margin-bottom: 18px;
+        }
+
+        .result p {
+            line-height: 1.8;
+        }
+
+        .status {
+            font-size: 18px;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        .accepted {
+            color: #148344;
+            border-left-color: #148344;
+        }
+
+        .rejected {
+            color: #bd2535;
+            border-left-color: #bd2535;
+        }
+
+        .neutral {
+            color: #17213b;
+        }
+
+        .dfa-path {
+            margin-top: 20px;
+        }
+
+        .dfa-path h4 {
+            margin-bottom: 8px;
+        }
+
+        .path-text {
+            color: #35425c;
+            font-size: 14px;
+            line-height: 1.9;
+            word-break: break-word;
+        }
+
+        /* DFA explanation */
+        .rules {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .rule {
+            padding: 18px;
+            background: #f2f5fb;
+            border-radius: 8px;
+        }
+
+        .rule h3 {
+            margin-bottom: 8px;
+            font-size: 16px;
+        }
+
+        .rule p {
+            color: #596780;
+            font-size: 14px;
+            line-height: 1.7;
+        }
+
+        .footer {
+            background: #101a3a;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 13px;
+        }
+
+        @media (max-width: 600px) {
+            .hero h1 {
+                font-size: 28px;
+            }
+
+            .card {
+                padding: 20px;
+            }
+
+            .rules {
+                grid-template-columns: 1fr;
+            }
+
+            .navbar {
+                padding: 16px 5%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <header class="navbar">
+        <h2><span>ASHOKA</span> COLLEGE</h2>
+        <p>DFA PROJECT | AUTOMATA THEORY</p>
+    </header>
+
+    <section class="hero">
+        <div class="tag">STUDENT PORTAL</div>
+        <h1>Email Validator Using DFA</h1>
+        <p>
+            Deterministic Finite Automaton for College Email Validation
+            <br>
+            Accepted domain: @ashokacollege.in
+        </p>
+    </section>
+
+    <main class="container">
+
+        <section class="card">
+            <h2>Student Email Validation</h2>
+            <p class="subtitle">
+                Enter your college email address to validate it.
+            </p>
+
+            <form id="emailForm">
+                <label for="email">Email Address</label>
+
+                <input
+                    type="text"
+                    id="email"
+                    placeholder="student@ashokacollege.in"
+                    autocomplete="off"
+                    required
+                >
+
+                <p class="hint">
+                    Only email addresses ending with @ashokacollege.in
+                    are accepted.
+                </p>
+
+                <button type="submit">VALIDATE EMAIL</button>
+            </form>
+
+            <div id="result" class="result" aria-live="polite">
+                <h3>Validation Result</h3>
+                <p class="neutral">
+                    Enter an email address and click Validate Email.
+                </p>
+            </div>
+        </section>
+
+        <section class="card">
+            <h2>DFA Rules</h2>
+            <p class="subtitle">
+                How the finite automaton processes the input.
+            </p>
+
+            <div class="rules">
+                <div class="rule">
+                    <h3>q0 — Start State</h3>
+                    <p>
+                        Reads the first valid character of the email
+                        username and moves to q1.
+                    </p>
+                </div>
+
+                <div class="rule">
+                    <h3>q1 — Username State</h3>
+                    <p>
+                        Reads username characters until the @ symbol
+                        is encountered.
+                    </p>
+                </div>
+
+                <div class="rule">
+                    <h3>q2 onwards — Domain States</h3>
+                    <p>
+                        Checks each character of the exact domain
+                        ashokacollege.in in sequence.
+                    </p>
+                </div>
+
+                <div class="rule">
+                    <h3>q18 — Final State</h3>
+                    <p>
+                        Accepts only when the complete email ends
+                        with the required college domain.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <footer class="footer">
+        DFA-Based Email Validation Project | Automata Theory
+    </footer>
+
+    <script>
+        const form = document.getElementById("emailForm");
+        const emailInput = document.getElementById("email");
+        const result = document.getElementById("result");
+
+        const DOMAIN = "@ashokacollege.in";
+
+        // Allowed characters in the email username.
+        function isUsernameCharacter(char) {
+            return /^[a-zA-Z0-9._%+-]$/.test(char);
+        }
+
+        // Simulate the DFA.
+        function validateEmailDFA(email) {
+            const path = ["q0"];
+            let state = "q0";
+
+            // Empty input is rejected.
+            if (email.length === 0) {
+                return {
+                    accepted: false,
+                    path: ["q0", "DEAD"],
+                    reason: "Email address cannot be empty."
+                };
+            }
+
+            // First character must begin a username.
+            if (!/^[a-zA-Z0-9_%+-]$/.test(email[0])) {
+                return {
+                    accepted: false,
+                    path: ["q0", "DEAD"],
+                    reason: "The email must begin with a valid username character."
+                };
+            }
+
+            state = "q1";
+            path.push(state);
+
+            let i = 1;
+
+            // q1: consume the username.
+            while (i < email.length &&
+                   email[i] !== "@") {
+
+                if (!isUsernameCharacter(email[i])) {
+                    path.push("DEAD");
+
+                    return {
+                        accepted: false,
+                        path,
+                        reason: "The username contains an invalid character."
+                    };
+                }
+
+                state = "q1";
+                path.push(state);
+                i++;
+            }
+
+            // Username must be followed by @.
+            if (i >= email.length ||
+                email[i] !== "@") {
+                path.push("DEAD");
+
+                return {
+                    accepted: false,
+                    path,
+                    reason: "The email must contain @ before the domain."
+                };
+            }
+
+            // Basic username dot checks.
+            const username = email.slice(0, i);
+
+            if (
+                username.endsWith(".") ||
+                username.includes("..")
+            ) {
+                path.push("DEAD");
+
+                return {
+                    accepted: false,
+                    path,
+                    reason: "The username cannot end with a dot or contain consecutive dots."
+                };
+            }
+
+            // q2 onward: match the exact required domain.
+            state = "q2";
+            path.push(state);
+            i++;
+
+            const domain = DOMAIN.slice(1);
+
+            for (let j = 0; j < domain.length; j++) {
+                if (
+                    i >= email.length ||
+                    email[i].toLowerCase() !== domain[j]
+                ) {
+                    path.push("DEAD");
+
+                    return {
+                        accepted: false,
+                        path,
+                        reason:
+                            "The domain must be exactly ashokacollege.in."
+                    };
+                }
+
+                state = "q" + (j + 3);
+                path.push(state);
+                i++;
+            }
+
+            // No extra characters may follow the domain.
+            if (i !== email.length) {
+                path.push("DEAD");
+
+                return {
+                    accepted: false,
+                    path,
+                    reason:
+                        "Extra characters after the college domain are not allowed."
+                };
+            }
+
+            // Accept only in the final state.
+            return {
+                accepted: true,
+                path,
+                reason:
+                    "The email matches the required college domain."
+            };
+        }
+
+        form.addEventListener("submit", function(event) {
+            event.preventDefault();
+
+            const email = emailInput.value.trim();
+            const answer = validateEmailDFA(email);
+
+            result.className = "result " +
+                (answer.accepted ? "accepted" : "rejected");
+
+            result.innerHTML = `
+                <h3>Validation Result</h3>
+
+                <p class="status">
+                    ${answer.accepted ? "✓ Email is ACCEPTED" :
+                      "✗ Email is REJECTED"}
+                </p>
+
+                <p>
+                    <strong>Email:</strong>
+                    ${escapeHTML(email)}
+                </p>
+
+                <p>
+                    <strong>Reason:</strong>
+                    ${answer.reason}
+                </p>
+
+                <div class="dfa-path">
+                    <h4>DFA State Transition Path</h4>
+                    <p class="path-text">
+                        ${answer.path.join(" → ")}
+                    </p>
+                </div>
+
+                <p style="margin-top: 15px;">
+                    <strong>Final Result:</strong>
+                    ${answer.accepted ?
+                      "Accepted by the DFA (final state)." :
+                      "Rejected by the DFA (dead state)."}
+                </p>
+            `;
+        });
+
+        // Prevent user input from being interpreted as HTML.
+        function escapeHTML(value) {
+            return value.replace(/[&<>"']/g, function(char) {
+                const entities = {
+                    "&": "&amp;",
+                    "<": "&lt;",
+                    ">": "&gt;",
+                    '"': "&quot;",
+                    "'": "&#39;"
+                };
+
+                return entities[char];
+            });
+        }
+    </script>
+
+</body>
+</html>
